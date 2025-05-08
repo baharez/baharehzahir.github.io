@@ -1,0 +1,124 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bahareh Zahirodini</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                <tbody>
+                    <tr>
+                        <td style="padding:2.5%;width:63%;vertical-align:middle">
+                            <p style="text-align:center">
+                                <name>Bahareh Zahirodini</name>
+                            </p>
+                            <p>
+                                I am a data scientist and researcher with a Master’s in Business Analytics from Bentley University. My work focuses on Bayesian networks, sentiment analysis, and data visualization, exploring consumer preferences and societal trends.
+                            </p>
+                            <p style="text-align:center">
+                                <a href="mailto:zahirodiny@gmail.com">Email</a> &nbsp;/&nbsp;
+                                <a href="https://linkedin.com/in/bahareh-zahirodini/">LinkedIn</a> &nbsp;/&nbsp;
+                                <a href="data/BaharehZahirodini-CV.pdf">CV</a> &nbsp;/&nbsp;
+                                <a href="https://github.com/baharehzahirodini">GitHub</a>
+                            </p>
+                        </td>
+                        <td style="padding:2.5%;width:37%;max-width:37%">
+                            <img style="width:100%;max-width:100%;object-fit:cover;border-radius:50%;" alt="profile photo" src="images/profile.jpg" class="hoverZoomLink">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>News</h2>
+                <ul>
+                    <li><b>May 2024</b>: Graduated with M.S. in Business Analytics from Bentley University (GPA: 3.94).</li>
+                    <li><b>Apr 2024</b>: Publication accepted in <i>Chance (ASA)</i>: "Bayesian Analysis of America's Business Attitudes."</li>
+                    <li><b>Mar 2024</b>: Submitted papers to <i>Significance (RSS)</i> on decision-making and Rasch models.</li>
+                    <li><b>Feb 2024</b>: Won 2nd place in NABA x Bentley Business Bowl for Responsible AI case study.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Selected Projects</h2>
+                <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                    <tbody>
+                        <tr>
+                            <td style="padding:8px;width:20%;vertical-align:middle">
+                                <img src="images/consumer_preferences.jpg" width="160">
+                            </td>
+                            <td style="padding:8px;width:80%;vertical-align:middle">
+                                <a href="#"><span class="papertitle">Exploring Consumer Preferences</span></a><br>
+                                Bentley-Gallup Force for Good Survey<br>
+                                Performed hypothesis testing on randomized survey responses to assess question framing impact.<br>
+                                <a href="#">project page</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;width:20%;vertical-align:middle">
+                                <img src="images/sat_scores.jpg" width="160">
+                            </td>
+                            <td style="padding:8px;width:80%;vertical-align:middle">
+                                <a href="#"><span class="papertitle">SAT Scores and Racial Composition Analysis</span></a><br>
+                                Conducted regression analysis on Massachusetts school data to examine demographic influences.<br>
+                                <a href="#">project page</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

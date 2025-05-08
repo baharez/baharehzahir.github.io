@@ -1,0 +1,105 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bahareh Zahirodini - Experience</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Education</h2>
+                <p>
+                    <strong>Bentley University, Waltham, MA</strong><br>
+                    Master of Science in Business Analytics, Data Science | GPA: 3.94<br>
+                    May 2024<br>
+                    Selected coursework: Machine Learning, Data Mining, Time Series Analysis, Statistical Modeling
+                </p>
+                <p>
+                    <strong>Shahid Beheshti University, Tehran, Iran</strong><br>
+                    Bachelor of Science in Accounting | GPA: 3.60<br>
+                    June 2013
+                </p>
+                <h2>Research Experience</h2>
+                <p>
+                    <strong>Research Assistant — Mathematical Sciences and Finance Department</strong><br>
+                    Bentley University, Waltham, MA | May 2023 – Present<br>
+                    <ul>
+                        <li>Conducted Bayesian network analysis on a survey dataset with over 6,000 participants.</li>
+                        <li>Applied e-value on cosine similarity to detect echo chamber effects.</li>
+                        <li>Developed Partial Credit Model to estimate respondents’ attitudes.</li>
+                        <li>Performed clustering and outlier detection on sentiment score curves.</li>
+                        <li>Designed Python scripts to automate investment research and time series analysis.</li>
+                        <li>Created interactive dashboards using Tableau and R Shiny.</li>
+                    </ul>
+                </p>
+                <h2>Academic Projects</h2>
+                <p>
+                    <strong>International Students’ Academic Success in U.S. Colleges</strong><br>
+                    Applied PCA and decision trees to predict graduation rates.<br>
+                    <strong>SAT Scores and Racial Composition Analysis</strong><br>
+                    Conducted regression analysis on Massachusetts school data.<br>
+                    <strong>Exploring Consumer Preferences</strong><br>
+                    Performed hypothesis testing on Bentley-Gallup survey data.<br>
+                    <strong>NABA x Bentley Business Bowl (2nd Place)</strong><br>
+                    Analyzed Responsible AI and corporate governance in credit lending.
+                </p>
+                <h2>Technical Skills</h2>
+                <p>
+                    <strong>Programming:</strong> Python, R, SQL, Excel (Macros, VBA)<br>
+                    <strong>Data Visualization:</strong> Tableau, Power BI, R Shiny<br>
+                    <strong>Analytics:</strong> Bayesian Networks, Social Network Analysis, Time Series Analysis, NLP<br>
+                    <strong>Tools:</strong> Alteryx, Snowflake, Microsoft Office
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
