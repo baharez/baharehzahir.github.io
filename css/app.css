@@ -3,7 +3,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
-    background-color: #d9f6eb;
+    background-color: #e4f7f0;
 }
 .container {
     max-width: 960px;
@@ -59,7 +59,7 @@ li {
     color: #333 !important;
 }
 .navbar-nav > li.active > a {
-    background-color: #e7e7e7 !important;
+    background-color: #698e87 !important;
     color: #2b4740 !important;
 }
 .navbar-toggle {
