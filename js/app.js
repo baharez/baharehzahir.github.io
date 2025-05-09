@@ -1,10 +1,6 @@
-$(document).ready(function() {
-    $('.hoverZoomLink').hover(
-        function() {
-            $(this).css('cursor', 'pointer');
-        },
-        function() {
-            $(this).css('cursor', 'default');
-        }
-    );
-});
+(function ($) {
+    $(document).ready(function () {
+        console.log('App JS loaded successfully');
+        // Add custom JavaScript here if needed
+    });
+})(jQuery);
