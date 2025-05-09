@@ -3,7 +3,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
-    background-color: #e4f7f0;
+    background-color: #e7e7e7;
 }
 .container {
     max-width: 960px;
@@ -34,7 +34,7 @@ img {
     transform: scale(1.05);
 }
 a {
-    color: #293c38;
+    color: #337ab7;
     text-decoration: none;
 }
 a:hover {
@@ -59,7 +59,7 @@ li {
     color: #333 !important;
 }
 .navbar-nav > li.active > a {
-    background-color: #698e87 !important;
+    background-color: #e7e7e7 !important;
     color: #2b4740 !important;
 }
 .navbar-toggle {
