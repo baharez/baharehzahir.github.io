@@ -60,7 +60,7 @@ li {
 }
 .navbar-nav > li.active > a {
     background-color: #e7e7e7 !important;
-    color: #e7e7e7 !important;
+    color: #333 !important;
 }
 .navbar-toggle {
     border-color: #333;
